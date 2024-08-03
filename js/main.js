@@ -6,7 +6,7 @@ let edad;
 while (true) {
     nombre = prompt ("Por favor, ingrese su nombre")
     añoDeN = prompt ("¡Hola " + nombre + "! ingresa tu año de nacimiento")
-    parseInt (añoDeN)
+    añoDeN = parseInt (añoDeN);
     if (añoDeN) {
         edad = añoActual - añoDeN
     }
@@ -29,7 +29,7 @@ function alertCategoria() {
 function entradas () {
     while (true) {
         cantidadEntradas = prompt ("el precio de cada entrada es de $15 cuantas entradas quieres comprar?");
-        parseInt (cantidadEntradas) ;
+        cantidadEntradas = parseInt (cantidadEntradas) ;
         if (cantidadEntradas <= 10 && cantidadEntradas > 0) {
             precio = entrada *= cantidadEntradas;
             break;
