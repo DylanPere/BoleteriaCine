@@ -36,12 +36,20 @@ function entradas () {
         } else { alert ("la cantidad que ingresaste no es valida, el minimo de entradas es 1 y el maximo 10")}
     }
 }
-function ticket (titulo, num) {
-        if (pelicula == titulo || pelicula == num) {
-            pelicula = titulo
-            document.write ("DETALLES DE COMPRA" + " <br>" + "Cliente: " + nombre + "<br>" + "Nombre de la pelicula: " + pelicula +  "<br>" + "genero: " + categoria + "<br>" + "total a pagar: $" + precio + "<br>" + "MUCHAS GRACIAS POR SU COMPRA")
-        }
+
+function choose (p1, p2, p3) {
+        while (pelicula != p1 || pelicula != p2 || pelicula != p3 || pelicula != "1" || pelicula != "2" || pelicula != "3") {
+            pelicula = prompt ("1-"+ p1 + "\n" + "2-" + p2 + "\n" + "3-" + p3 + "\n");
+            if (pelicula == p1 || pelicula == p2 || pelicula == p3 || pelicula == "1" || pelicula == "2" || pelicula == "3"){ 
+            if (pelicula == "1") {pelicula = p1}
+            else if (pelicula == "2") {pelicula = p2}
+            else if (pelicula == "3") {pelicula = p3}
+                break;} else {alert ("la pelicula que ingresaste no es valida")}
+        } 
 };
+function ticket () {
+        document.write ("DETALLES DE COMPRA" + " <br>" + "Cliente: " + nombre + "<br>" + "Nombre de la pelicula: " + pelicula +  "<br>" + "genero: " + categoria + "<br>" + "cantidad de entradas: " + cantidadEntradas + "<br>" + "total a pagar: $" + precio + "<br>" + "MUCHAS GRACIAS POR SU COMPRA");
+}
 
 
 categoria = prompt ("Que categoria deseas ver?\n" + "1-comedia\n" + "2-terror\n" + "3-suspenso\n" + "4-drama\n");
@@ -49,35 +57,27 @@ categoria = prompt ("Que categoria deseas ver?\n" + "1-comedia\n" + "2-terror\n"
 if (categoria == 1 ||categoria ==  "comedia") {
     categoria = "comedia";
     alertCategoria();
-    pelicula = prompt ("1-Esperando la Carroza\n" + "2-SuperCool\n" + "3-Ladrona de identidades\n");
+    choose ("Esperando la carroza", "SuperCool", "Ladrona de identidades")
     entradas();
-    ticket ("Esperando la carroza", "1")
-    ticket ("SuperCool", "2")
-    ticket ("Ladrona de identidades", "3")
+    ticket();
 } else if (categoria == 2 ||categoria ==  "terror") {
     categoria = "terror";
     alertCategoria();
-    pelicula = prompt ("1-Terror en Amityville\n" + "2-Psicosis\n" + "3-El exorcista\n")
+    choose ("Terror en Amityville", "Psicosis", "El exorcista")
     entradas();
-    ticket ("Terror en Amityville", "1")
-    ticket ("Psicosis","2")
-    ticket ("El exorcista", "3")
+    ticket();
 } else if (categoria == 3 ||categoria ==  "suspenso") {
     categoria = "suspenso";
     alertCategoria();
-    pelicula = prompt ("1-El Silencio de los Inocentes\n" + "2-Seven\n" + "3-El Origen\n")
+    choose ("El Silencio de los Inocentes", "Seven", "El Origen")
     entradas();
-    ticket ("El Silencio de los Inocentes", "1")
-    ticket ("Seven","2")
-    ticket ("El Origen", "3")
+    ticket();
 } else if (categoria == 4 ||categoria ==  "drama") {
     categoria = "drama"
     alertCategoria();
-    pelicula = prompt ("1-El Padrino\n" + "2-Forrest Gump\n" + "3-La Lista de Schindler\n")
+    choose ("El Padrino", "Forrest Gump", "La Lista de Schindler")
     entradas();
-    ticket ("El Padrino", "1")
-    ticket ("Forrest Gump","2")
-    ticket ("La Lista de Schindler", "3")
+    ticket();
 } else { alert ("la categoria que ingresaste no existe o no se encuentra disponible")}
 
 
