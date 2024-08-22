@@ -1,100 +1,135 @@
-let nombre ;
-let añoDeN ;
-let añoActual = 2024;
+
+const peliculas = {
+    comedia: [
+        { nombre: "Esperando la carroza", precio: 1500 },
+        { nombre: "SuperCool", precio: 2000 },
+        { nombre: "Ladrona de identidades", precio: 1600 }
+    ],
+    terror: [
+        { nombre: "IT", precio: 3500 },
+        { nombre: "Psicosis", precio: 2000 },
+        { nombre: "El exorcista", precio: 2500 }
+    ],
+    suspenso: [
+        { nombre: "El Silencio de los Inocentes", precio: 2300 },
+        { nombre: "Seven", precio: 1500 },
+        { nombre: "El Origen", precio: 1800}
+    ],
+    drama: [
+        { nombre: "El Padrino", precio: 3000 },
+        { nombre: "Forrest Gump", precio: 1500 },
+        { nombre: "La Lista de Schindler", precio: 1300 }
+    ]
+};
+
+let nombre;
+let añoDeN;
+const añoActual = 2024;
 let edad;
+let categoria;
+let peliculaSeleccionada;
+let cantidadEntradas;
+let precioTotal;
+
 
 while (true) {
-    nombre = prompt ("Por favor, ingrese su nombre")
-    añoDeN = prompt ("¡Hola " + nombre + "! ingresa tu año de nacimiento")
-    añoDeN = parseInt (añoDeN);
+    nombre = prompt("Por favor, ingrese su nombre:");
+    añoDeN = prompt("¡Hola " + nombre + "! ingresa tu año de nacimiento:");
+    añoDeN = parseInt(añoDeN);
     if (añoDeN) {
-        edad = añoActual - añoDeN
+        edad = añoActual - añoDeN;
     }
     console.log(edad);
     if (edad >= 18) {
         break;
     } else {
-        alert ("vuelve cuando seas mayor de edad")
+        alert("Vuelve cuando seas mayor de edad.");
     }
 }
-let categoria;
-let pelicula;
-let entrada = 15;
-let cantidadEntradas;
-let precio;
-function alertCategoria() {
-    alert ("¡Buena elección! a continuacion te dejamos las peliculas de " + categoria + " disponibles")
-};
 
-function entradas () {
+categoria = prompt("¿Qué categoría deseas ver?\n1-Comedia\n2-Terror\n3-Suspenso\n4-Drama\n");
+categoria = convertirCategoria(categoria);
+
+if (categoria === null) {
+    alert("La categoría que ingresaste no existe o no se encuentra disponible.");
+    throw new Error("Categoría inválida");
+}
+
+mostrarPeliculas(categoria);
+
+
+peliculaSeleccionada = seleccionarPelicula(categoria);
+
+solicitarEntradas();
+
+generarTicket();
+
+
+function convertirCategoria(input) {
+    switch(input) {
+        case "1":
+        case "comedia":
+            return "comedia";
+        case "2":
+        case "terror":
+            return "terror";
+        case "3":
+        case "suspenso":
+            return "suspenso";
+        case "4":
+        case "drama":
+            return "drama";
+        default:
+            return null;
+    }
+}
+
+function mostrarPeliculas(categoria) {
+    const peliculasDisponibles = peliculas[categoria];
+    let mensaje = "¡Buena elección! A continuación te dejamos las películas de " + categoria + " disponibles:\n";
+    
+    peliculasDisponibles.forEach((pelicula, index) => {
+        mensaje += `${index + 1} - ${pelicula.nombre} ($${pelicula.precio})\n`;
+    });
+
+    alert(mensaje);
+}
+
+function seleccionarPelicula(categoria) {
+    const peliculasDisponibles = peliculas[categoria];
     while (true) {
-        cantidadEntradas = prompt ("el precio de cada entrada es de $15 cuantas entradas quieres comprar?");
-        cantidadEntradas = parseInt (cantidadEntradas) ;
-        if (cantidadEntradas <= 10 && cantidadEntradas > 0) {
-            precio = entrada *= cantidadEntradas;
-            break;
-        } else { alert ("la cantidad que ingresaste no es valida, el minimo de entradas es 1 y el maximo 10")}
+        let seleccion = prompt("Selecciona la película (1, 2 o 3):");
+        seleccion = parseInt(seleccion) - 1;
+        if (peliculasDisponibles[seleccion]) {
+            return peliculasDisponibles[seleccion];
+        } else {
+            alert("La película que ingresaste no es válida.");
+        }
     }
 }
 
-function choose (p1, p2, p3) {
-        while (pelicula != p1 || pelicula != p2 || pelicula != p3 || pelicula != "1" || pelicula != "2" || pelicula != "3") {
-            pelicula = prompt ("1-"+ p1 + "\n" + "2-" + p2 + "\n" + "3-" + p3 + "\n");
-            if (pelicula == p1 || pelicula == p2 || pelicula == p3 || pelicula == "1" || pelicula == "2" || pelicula == "3"){ 
-            if (pelicula == "1") {pelicula = p1}
-            else if (pelicula == "2") {pelicula = p2}
-            else if (pelicula == "3") {pelicula = p3}
-                break;} else {alert ("la pelicula que ingresaste no es valida")}
-        } 
-};
-function ticket () {
-        document.write ("DETALLES DE COMPRA" + " <br>" + "Cliente: " + nombre + "<br>" + "Nombre de la pelicula: " + pelicula +  "<br>" + "genero: " + categoria + "<br>" + "cantidad de entradas: " + cantidadEntradas + "<br>" + "total a pagar: $" + precio + "<br>" + "MUCHAS GRACIAS POR SU COMPRA");
+function solicitarEntradas() {
+    while (true) {
+        cantidadEntradas = prompt("¿Cuántas entradas quieres comprar?");
+        cantidadEntradas = parseInt(cantidadEntradas);
+        if (cantidadEntradas <= 10 && cantidadEntradas > 0) {
+            precioTotal = peliculaSeleccionada.precio * cantidadEntradas;
+            break;
+        } else {
+            alert("La cantidad que ingresaste no es válida, el mínimo de entradas es 1 y el máximo 10.");
+        }
+    }
 }
 
-
-categoria = prompt ("Que categoria deseas ver?\n" + "1-comedia\n" + "2-terror\n" + "3-suspenso\n" + "4-drama\n");
-
-if (categoria == 1 ||categoria ==  "comedia") {
-    categoria = "comedia";
-    alertCategoria();
-    choose ("Esperando la carroza", "SuperCool", "Ladrona de identidades")
-    entradas();
-    ticket();
-} else if (categoria == 2 ||categoria ==  "terror") {
-    categoria = "terror";
-    alertCategoria();
-    choose ("Terror en Amityville", "Psicosis", "El exorcista")
-    entradas();
-    ticket();
-} else if (categoria == 3 ||categoria ==  "suspenso") {
-    categoria = "suspenso";
-    alertCategoria();
-    choose ("El Silencio de los Inocentes", "Seven", "El Origen")
-    entradas();
-    ticket();
-} else if (categoria == 4 ||categoria ==  "drama") {
-    categoria = "drama"
-    alertCategoria();
-    choose ("El Padrino", "Forrest Gump", "La Lista de Schindler")
-    entradas();
-    ticket();
-} else { alert ("la categoria que ingresaste no existe o no se encuentra disponible")}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function generarTicket() {
+    document.write("DETALLES DE COMPRA" + " <br>" +
+                    "Cliente: " + nombre + "<br>" +
+                    "Nombre de la película: " + peliculaSeleccionada.nombre + "<br>" +
+                    "Género: " + categoria + "<br>" +
+                    "Cantidad de entradas: " + cantidadEntradas + "<br>" +
+                    "Total a pagar: $" + precioTotal + "<br>" +
+                    "MUCHAS GRACIAS POR SU COMPRA");
+}
 
 
 
