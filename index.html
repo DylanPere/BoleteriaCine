@@ -7,6 +7,61 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-<script src="./js/main.js"></script>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="./img/film-reel-vector-cinema-logo-600nw-2353280887.webp" alt="">
+            </div>
+            <div class="buscador">
+                <input type="text" id="busqueda" class="busqueda" placeholder="¿Qué estás buscando?...">
+                <button id="buscar-btn">BUSCAR</button>
+            </div>
+            <div class="list">
+                <ul>
+                    <li>Contactos</li>
+                    <li>Carrito</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="peliculas">
+            <div class="categoria" data-genre="comedia">
+                <h2>Películas de Comedia</h2>
+                <div class="peliculas-list">
+                    <h3 class="pelicula">Esperando la Carroza</h3>
+                    <h3 class="pelicula">SuperCool</h3>
+                    <h3 class="pelicula">Ladrona de Identidades</h3>
+                </div>
+            </div>
+            <div class="categoria" data-genre="terror">
+                <h2>Películas de Terror</h2>
+                <div class="peliculas-list">
+                    <h3 class="pelicula">IT</h3>
+                    <h3 class="pelicula">Psicosis</h3>
+                    <h3 class="pelicula">El Exorcista</h3>
+                </div>
+            </div>
+            <div class="categoria" data-genre="suspenso">
+                <h2>Películas de Suspenso</h2>
+                <div class="peliculas-list">
+                    <h3 class="pelicula">El Silencio de los Inocentes</h3>
+                    <h3 class="pelicula">Seven</h3>
+                    <h3 class="pelicula">El Origen</h3>
+                </div>
+            </div>
+            <div class="categoria" data-genre="drama">
+                <h2>Películas de Drama</h2>
+                <div class="peliculas-list">
+                    <h3 class="pelicula">El Padrino</h3>
+                    <h3 class="pelicula">Forrest Gump</h3>
+                    <h3 class="pelicula">La Lista de Schindler</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+    </footer>
+    <script src="./js/main.js"></script>
 </body>
 </html>

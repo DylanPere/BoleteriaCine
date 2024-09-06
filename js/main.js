@@ -1,3 +1,6 @@
+const peliculasContenedor = document.querySelector('.peliculas');
+
+const carrito = [];
 
 const peliculas = {
     comedia: [
@@ -13,7 +16,7 @@ const peliculas = {
     suspenso: [
         { nombre: "El Silencio de los Inocentes", precio: 2300 },
         { nombre: "Seven", precio: 1500 },
-        { nombre: "El Origen", precio: 1800}
+        { nombre: "El Origen", precio: 1800 }
     ],
     drama: [
         { nombre: "El Padrino", precio: 3000 },
@@ -22,119 +25,75 @@ const peliculas = {
     ]
 };
 
-let nombre;
-let añoDeN;
-const añoActual = 2024;
-let edad;
-let categoria;
-let peliculaSeleccionada;
-let cantidadEntradas;
-let precioTotal;
+function mostrarPeliculas(filtradas = null) {
+    peliculasContenedor.innerHTML = '';
 
+    const peliculasAMostrar = filtradas || peliculas;
 
-while (true) {
-    nombre = prompt("Por favor, ingrese su nombre:");
-    añoDeN = prompt("¡Hola " + nombre + "! ingresa tu año de nacimiento:");
-    añoDeN = parseInt(añoDeN);
-    if (añoDeN) {
-        edad = añoActual - añoDeN;
+    for (let genero in peliculasAMostrar) {
+        const categoriaDiv = document.createElement('div');
+        categoriaDiv.classList.add('categoria');
+
+        const generoTitulo = document.createElement('h2');
+        generoTitulo.textContent = `Películas de ${genero.charAt(0).toUpperCase() + genero.slice(1)}`;
+        categoriaDiv.appendChild(generoTitulo);
+
+        const peliculasList = document.createElement('div');
+        peliculasList.classList.add('peliculas-list');
+
+        peliculasAMostrar[genero].forEach(pelicula => {
+            const peliculaContainer = document.createElement('div');
+            peliculaContainer.classList.add('pelicula-container');
+
+            const peliculaElemento = document.createElement('h3');
+            peliculaElemento.classList.add('pelicula');
+            peliculaElemento.textContent = `${pelicula.nombre} - $${pelicula.precio}`;
+            
+            const agregarCarritoBtn = document.createElement('button');
+            agregarCarritoBtn.classList.add('agregar-carrito-btn');
+            agregarCarritoBtn.textContent = 'Agregar al carrito';
+            agregarCarritoBtn.addEventListener('click', () => agregarAlCarrito(pelicula));
+
+            peliculaContainer.appendChild(peliculaElemento);
+            peliculaContainer.appendChild(agregarCarritoBtn);
+            peliculasList.appendChild(peliculaContainer);
+        });
+
+        categoriaDiv.appendChild(peliculasList);
+        peliculasContenedor.appendChild(categoriaDiv);
     }
-    console.log(edad);
-    if (edad >= 18) {
-        break;
+}
+
+function agregarAlCarrito(pelicula) {
+    carrito.push(pelicula);
+    alert(`Agregaste "${pelicula.nombre}" al carrito.`);
+    console.log(carrito);
+}
+
+mostrarPeliculas();
+
+const inputBusqueda = document.getElementById('busqueda');
+const btnBuscar = document.getElementById('buscar-btn');
+
+function buscarPeliculas() {
+    const textoBusqueda = inputBusqueda.value.toLowerCase();
+
+    const peliculasFiltradas = {};
+
+    for (let genero in peliculas) {
+        peliculasFiltradas[genero] = peliculas[genero].filter(pelicula =>
+            pelicula.nombre.toLowerCase().includes(textoBusqueda)
+        );
+    }
+
+    const esVacio = Object.values(peliculasFiltradas).every(arr => arr.length === 0);
+
+    if (esVacio) {
+        peliculasContenedor.innerHTML = '<p>No se encontraron películas con ese término.</p>';
     } else {
-        alert("Vuelve cuando seas mayor de edad.");
+        mostrarPeliculas(peliculasFiltradas);
     }
 }
 
-categoria = prompt("¿Qué categoría deseas ver?\n1-Comedia\n2-Terror\n3-Suspenso\n4-Drama\n");
-categoria = convertirCategoria(categoria);
-
-if (categoria === null) {
-    alert("La categoría que ingresaste no existe o no se encuentra disponible.");
-    throw new Error("Categoría inválida");
-}
-
-mostrarPeliculas(categoria);
-
-
-peliculaSeleccionada = seleccionarPelicula(categoria);
-
-solicitarEntradas();
-
-generarTicket();
-
-
-function convertirCategoria(input) {
-    switch(input) {
-        case "1":
-        case "comedia":
-            return "comedia";
-        case "2":
-        case "terror":
-            return "terror";
-        case "3":
-        case "suspenso":
-            return "suspenso";
-        case "4":
-        case "drama":
-            return "drama";
-        default:
-            return null;
-    }
-}
-
-function mostrarPeliculas(categoria) {
-    const peliculasDisponibles = peliculas[categoria];
-    let mensaje = "¡Buena elección! A continuación te dejamos las películas de " + categoria + " disponibles:\n";
-    
-    peliculasDisponibles.forEach((pelicula, index) => {
-        mensaje += `${index + 1} - ${pelicula.nombre} ($${pelicula.precio})\n`;
-    });
-
-    alert(mensaje);
-}
-
-function seleccionarPelicula(categoria) {
-    const peliculasDisponibles = peliculas[categoria];
-    while (true) {
-        let seleccion = prompt("Selecciona la película (1, 2 o 3):");
-        seleccion = parseInt(seleccion) - 1;
-        if (peliculasDisponibles[seleccion]) {
-            return peliculasDisponibles[seleccion];
-        } else {
-            alert("La película que ingresaste no es válida.");
-        }
-    }
-}
-
-function solicitarEntradas() {
-    while (true) {
-        cantidadEntradas = prompt("¿Cuántas entradas quieres comprar?");
-        cantidadEntradas = parseInt(cantidadEntradas);
-        if (cantidadEntradas <= 10 && cantidadEntradas > 0) {
-            precioTotal = peliculaSeleccionada.precio * cantidadEntradas;
-            break;
-        } else {
-            alert("La cantidad que ingresaste no es válida, el mínimo de entradas es 1 y el máximo 10.");
-        }
-    }
-}
-
-function generarTicket() {
-    document.write("DETALLES DE COMPRA" + " <br>" +
-                    "Cliente: " + nombre + "<br>" +
-                    "Nombre de la película: " + peliculaSeleccionada.nombre + "<br>" +
-                    "Género: " + categoria + "<br>" +
-                    "Cantidad de entradas: " + cantidadEntradas + "<br>" +
-                    "Total a pagar: $" + precioTotal + "<br>" +
-                    "MUCHAS GRACIAS POR SU COMPRA");
-}
-
-
-
-
-
-
-
-
+btnBuscar.addEventListener('click', buscarPeliculas);
+inputBusqueda.addEventListener('input', buscarPeliculas);
